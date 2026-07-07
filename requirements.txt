@@ -18,7 +18,7 @@ pyyaml>=6.0.1  # YAML config parsing
 python-dotenv>=1.0.0  # Environment variable management
 
 # Telegram Bot (for notifications)
-python-telegram-bot>=20.0  # Telegram Bot API
+python-telegram-bot[webhooks]>=20.0  # Telegram Bot API with webhook support
 
 # Scheduling
 apscheduler>=3.10.4  # Advanced Python Scheduler

@@ -452,16 +452,9 @@ def run_scheduler_daemon(config_path: str = "cron_config.yaml"):
     # Start scheduler
     scheduler.start()
 
-    # Setup signal handlers
-    def signal_handler(sig, frame):
-        logger.info("Received shutdown signal")
-        scheduler.shutdown()
-        exit(0)
-
-    signal.signal(signal.SIGINT, signal_handler)
-    signal.signal(signal.SIGTERM, signal_handler)
-
-    logger.info("Scheduler running. Press Ctrl+C to stop.")
+    # Signal handlers are managed by main thread
+    # No signal handling in daemon thread
+    logger.info("Scheduler running in daemon mode.")
 
     # Keep running
     try:
