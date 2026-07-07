@@ -179,10 +179,7 @@ Poznámka: Agenti sú aktívni len počas nakonfigurovaných časov (pozri cron_
 
         try:
             # Initialize components
-            kb = KnowledgeBase(
-                db_url=os.getenv('DATABASE_URL'),
-                redis_url=os.getenv('REDIS_URL')
-            )
+            kb = KnowledgeBase(database_url=os.getenv('DATABASE_URL'))
             memory = ConversationMemory(kb)
             chat = OllamaChat(memory)
 
