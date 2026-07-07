@@ -169,15 +169,37 @@ Poznámka: Agenti sú aktívni len počas nakonfigurovaných časov (pozri cron_
         await update.message.reply_text(help_text, parse_mode='Markdown')
 
     async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
-        """Handle regular messages."""
-        # TODO: Integrate with Hermes agent for conversation
+        """Handle regular messages with intelligent agent routing."""
+        from autonomous.knowledge_base import KnowledgeBase
+        from autonomous.conversation_memory import ConversationMemory
+        from autonomous.ollama_chat import OllamaChat
+
+        user_id = update.effective_user.id
         message = update.message.text
 
-        # For now, simple acknowledgment
-        await update.message.reply_text(
-            "Prijal som tvoju správu. Konverzačný mód zatiaľ nie je plne implementovaný, "
-            "ale autonomous agenti sú aktívni a budú ťa kontaktovať s objavmi! 🔍"
-        )
+        try:
+            # Initialize components
+            kb = KnowledgeBase(
+                db_url=os.getenv('DATABASE_URL'),
+                redis_url=os.getenv('REDIS_URL')
+            )
+            memory = ConversationMemory(kb)
+            chat = OllamaChat(memory)
+
+            # Show typing indicator
+            await update.message.chat.send_action("typing")
+
+            # Process message and get response
+            response = await chat.chat(user_id, message)
+
+            # Send response
+            await update.message.reply_text(response)
+
+        except Exception as e:
+            logger.error(f"Error in handle_message: {e}", exc_info=True)
+            await update.message.reply_text(
+                "Prepáčte, vyskytla sa chyba pri spracovaní správy. Skúste to prosím znova."
+            )
 
     # Register handlers
     application.add_handler(CommandHandler("start", start_command))
