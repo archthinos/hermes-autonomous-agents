@@ -188,12 +188,17 @@ Poznámka: Agenti sú aktívni len počas nakonfigurovaných časov (pozri cron_
     # Run bot
     if webhook_url:
         # Webhook mode (for Railway)
-        logger.info(f"Running in webhook mode: {webhook_url}")
+        # Extract base URL without /webhook suffix for proper setup
+        base_url = webhook_url.replace("/webhook", "")
+        webhook_path = f"/webhook/{bot_token}"
+        full_webhook_url = f"{base_url}{webhook_path}"
+
+        logger.info(f"Running in webhook mode: {full_webhook_url}")
         application.run_webhook(
             listen="0.0.0.0",
             port=port,
-            url_path="/webhook",
-            webhook_url=f"{webhook_url}"
+            url_path=webhook_path,
+            webhook_url=full_webhook_url
         )
     else:
         # Polling mode (for local development)
