@@ -192,8 +192,8 @@ Poznámka: Agenti sú aktívni len počas nakonfigurovaných časov (pozri cron_
         application.run_webhook(
             listen="0.0.0.0",
             port=port,
-            url_path=bot_token,
-            webhook_url=f"{webhook_url}/{bot_token}"
+            url_path="/webhook",
+            webhook_url=f"{webhook_url}"
         )
     else:
         # Polling mode (for local development)
