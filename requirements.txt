@@ -1,0 +1,46 @@
+# Hermes Autonomous Multi-Agent System - Dependencies
+
+# Core Hermes Agent (from local installation)
+# Assumes hermes-agent is already installed or will be copied
+
+# Database
+psycopg2-binary>=2.9.0  # PostgreSQL adapter
+redis>=5.0.0  # Redis client
+aioredis>=2.0.1  # Async Redis support
+
+# HTTP/Web
+requests>=2.31.0
+httpx>=0.25.0  # Async HTTP client
+aiohttp>=3.9.0
+
+# Data Processing
+pyyaml>=6.0.1  # YAML config parsing
+python-dotenv>=1.0.0  # Environment variable management
+
+# Telegram Bot (for notifications)
+python-telegram-bot>=20.0  # Telegram Bot API
+
+# Scheduling
+apscheduler>=3.10.4  # Advanced Python Scheduler
+croniter>=2.0.0  # Cron expression parser
+
+# Optional: Embeddings (if using OpenAI embeddings)
+openai>=1.0.0  # OpenAI API client
+tiktoken>=0.5.0  # Token counting
+
+# Optional: Vector similarity (if using pgvector)
+pgvector>=0.2.0  # PostgreSQL vector extension support
+
+# Utility
+python-dateutil>=2.8.2
+pytz>=2023.3  # Timezone support
+
+# Logging & Monitoring
+structlog>=23.2.0  # Structured logging (optional but recommended)
+
+# Development/Testing (optional)
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+black>=23.0.0
+flake8>=6.1.0
+mypy>=1.7.0

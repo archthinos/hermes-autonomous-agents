@@ -1,0 +1,31 @@
+model:
+  provider: ollama
+  name: llama3.1:8b
+  temperature: 0.4
+  max_tokens: 4000
+
+limits:
+  max_iterations: 50
+  max_tool_calls_per_turn: 8
+  timeout_seconds: 180
+
+toolsets:
+  - web
+  - browser
+  - file
+
+memory:
+  enabled: true
+  max_memory_chars: 2200
+  max_user_chars: 1375
+
+system_prompt_additions:
+  - "Current date: {{date}}"
+  - "Focus on AI/ML research, papers, models, breakthroughs"
+  - "Last successful search topics: {{recent_topics}}"
+
+personality: intellectually_curious
+
+logging:
+  level: INFO
+  include_tool_calls: true

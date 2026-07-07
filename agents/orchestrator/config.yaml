@@ -1,0 +1,32 @@
+model:
+  provider: ollama
+  name: llama3.1:8b
+  temperature: 0.3
+  max_tokens: 4000
+
+limits:
+  max_iterations: 30
+  max_tool_calls_per_turn: 5
+  timeout_seconds: 120
+
+toolsets:
+  - database
+  - message_routing
+  - analytics
+
+memory:
+  enabled: true
+  max_memory_chars: 2000
+  max_user_chars: 1500
+
+system_prompt_additions:
+  - "Current date: {{date}}"
+  - "Budget remaining: {{budget_remaining}}"
+  - "Active agents: {{active_agents}}"
+  - "Pending tasks: {{pending_tasks}}"
+
+personality: analytical
+
+logging:
+  level: INFO
+  include_tool_calls: true

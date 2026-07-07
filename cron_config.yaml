@@ -1,0 +1,214 @@
+# Cron Configuration for Autonomous Multi-Agent System
+# Defines schedules for each agent's proactive scanning
+
+# Orchestrator - Main coordinator
+orchestrator:
+  schedule: "0 */4 * * *"  # Every 4 hours
+  goal: "Coordinate agents, generate goals, prioritize tasks, review discoveries, manage budget"
+  delivery: none  # Internal coordination only
+  enabled: true
+  priority: 100  # Highest priority
+  description: "Master coordinator that manages all other agents"
+
+# AI Research Agent - AI/ML discoveries
+ai_researcher:
+  enabled: true
+  schedules:
+    - name: "morning_scan"
+      schedule: "0 9 * * *"  # 9:00 AM daily
+      goal: |
+        Search ArXiv for new AI/ML papers from last 24 hours.
+        Check Hugging Face trending models and datasets.
+        Scan Papers with Code for latest implementations.
+      delivery: telegram
+      priority: 70
+      skill: "ai-news-aggregator"
+
+    - name: "afternoon_check"
+      schedule: "0 15 * * *"  # 3:00 PM daily
+      goal: |
+        Monitor AI lab blogs (OpenAI, Anthropic, DeepMind, Meta AI).
+        Check AI Twitter for breaking news and announcements.
+        Review Papers with Code updates.
+      delivery: telegram
+      priority: 65
+      skill: "ai-news-aggregator"
+
+    - name: "evening_digest"
+      schedule: "0 21 * * *"  # 9:00 PM daily
+      goal: |
+        Generate daily AI research digest.
+        Summarize top 3 discoveries of the day.
+        Highlight breakthroughs and important papers.
+      delivery: telegram
+      priority: 75
+      format: "digest"
+
+# Software Development Agent - Dev tools and frameworks
+software_dev:
+  enabled: true
+  schedules:
+    - name: "morning_github_scan"
+      schedule: "0 10 * * *"  # 10:00 AM daily
+      goal: |
+        Analyze GitHub Trending repositories (all languages).
+        Check Hacker News front page for dev stories.
+        Scan Show HN for interesting project launches.
+      delivery: telegram
+      priority: 65
+      skill: "github-trending-analyzer"
+
+    - name: "evening_news_scan"
+      schedule: "0 18 * * *"  # 6:00 PM daily
+      goal: |
+        Review Dev.to featured articles.
+        Check Reddit r/programming hot posts.
+        Synthesize tech news from multiple sources.
+      delivery: telegram
+      priority: 60
+      skill: "tech-news-synthesizer"
+
+# Crypto/Finance Agent - Markets and DeFi
+crypto_agent:
+  enabled: true
+  schedules:
+    - name: "morning_market_brief"
+      schedule: "0 8 * * *"  # 8:00 AM daily
+      goal: |
+        Get morning crypto market snapshot.
+        Check overnight price movements (BTC, ETH, SOL).
+        Scan Polymarket for trending predictions.
+      delivery: telegram
+      priority: 70
+      skill: "crypto-market-digest"
+
+    - name: "midday_update"
+      schedule: "0 14 * * *"  # 2:00 PM daily
+      goal: |
+        Midday market check and movements.
+        DeFi protocol TVL changes.
+        Polymarket probability shifts.
+      delivery: telegram
+      priority: 55
+      skill: "crypto-market-digest"
+
+    - name: "evening_digest"
+      schedule: "0 20 * * *"  # 8:00 PM daily
+      goal: |
+        Daily crypto market digest.
+        Top movers and significant events.
+        Polymarket interesting markets.
+      delivery: telegram
+      priority: 65
+      skill: "crypto-market-digest"
+      format: "digest"
+
+# Productivity Agent - Personal assistant
+productivity:
+  enabled: true
+  schedules:
+    - name: "morning_briefing"
+      schedule: "0 7 * * *"  # 7:00 AM daily
+      goal: |
+        Generate morning briefing:
+        - Today's top 3 priorities
+        - Calendar overview
+        - Reminders and deadlines
+      delivery: telegram
+      priority: 85
+      skill: "productivity-daily-review"
+      format: "morning"
+
+    - name: "evening_review"
+      schedule: "0 19 * * *"  # 7:00 PM daily
+      goal: |
+        Generate evening review:
+        - Today's accomplishments
+        - Tomorrow's priorities
+        - Progress insights
+      delivery: telegram
+      priority: 80
+      skill: "productivity-daily-review"
+      format: "evening"
+
+    - name: "weekly_review"
+      schedule: "0 20 * * 5"  # Friday 8:00 PM
+      goal: |
+        Generate weekly review:
+        - Week's accomplishments
+        - Lessons learned
+        - Next week preview
+      delivery: telegram
+      priority: 90
+      format: "weekly"
+
+# Social Media Monitor - Community intelligence
+social_monitor:
+  enabled: true
+  schedules:
+    - name: "late_morning_scan"
+      schedule: "0 11 * * *"  # 11:00 AM daily
+      goal: |
+        Scan Twitter/X for AI, tech, and crypto discussions.
+        Check influential tech personalities.
+        Monitor trending hashtags and topics.
+      delivery: telegram
+      priority: 50
+
+    - name: "afternoon_reddit_scan"
+      schedule: "0 17 * * *"  # 5:00 PM daily
+      goal: |
+        Check Reddit hot posts (r/programming, r/MachineLearning, r/CryptoCurrency).
+        Monitor Hacker News top discussions.
+        Identify high-engagement threads.
+      delivery: telegram
+      priority: 50
+
+# Web Researcher - On-demand deep research
+web_researcher:
+  enabled: true
+  schedule: "on_demand"  # Only reactive, no scheduled scans
+  description: "Deep research agent activated by user requests or other agents"
+  priority: 80
+
+# Global Configuration
+global:
+  # Notification settings
+  notification:
+    max_per_day: 3  # Maximum 2-3 notifications per day total
+    min_quality_score: 0.7  # Minimum relevance score to notify
+    aggregate_similar: true  # Combine similar findings
+    silent_hours: [23, 24, 0, 1, 2, 3, 4, 5, 6]  # Don't notify during these hours
+
+  # Budget management
+  budget:
+    daily_limit_usd: 50.0  # Maximum API spend per day
+    alert_threshold: 0.8  # Alert when 80% of budget used
+    reserve_percentage: 0.2  # Keep 20% for on-demand research
+
+  # Quality filters
+  quality:
+    min_novelty_score: 0.5  # Minimum novelty to store
+    duplicate_check: true  # Check for duplicates
+    max_age_hours: 24  # Only report discoveries < 24h old
+
+  # Agent coordination
+  coordination:
+    orchestrator_interval_hours: 4  # Run orchestrator every 4 hours
+    max_concurrent_tasks: 3  # Max parallel agent tasks
+    task_timeout_seconds: 600  # 10 minute timeout per task
+
+  # Delivery settings
+  delivery:
+    default_platform: "telegram"
+    retry_count: 3
+    retry_delay_seconds: 60
+
+# Timezone
+timezone: "Europe/Bratislava"  # User's timezone (adjust as needed)
+
+# Logging
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "/var/log/hermes/autonomous.log"  # Log file path (if applicable)

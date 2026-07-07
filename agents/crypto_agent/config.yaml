@@ -1,0 +1,32 @@
+model:
+  provider: ollama
+  name: llama3.1:8b
+  temperature: 0.3
+  max_tokens: 4000
+
+limits:
+  max_iterations: 50
+  max_tool_calls_per_turn: 8
+  timeout_seconds: 180
+
+toolsets:
+  - web
+  - browser
+  - file
+
+memory:
+  enabled: true
+  max_memory_chars: 2200
+  max_user_chars: 1375
+
+system_prompt_additions:
+  - "Current date: {{date}}"
+  - "Focus on crypto markets, DeFi, Polymarket predictions"
+  - "Track: BTC, ETH, SOL, major DeFi protocols"
+  - "IMPORTANT: Not financial advice, informational only"
+
+personality: analytical
+
+logging:
+  level: INFO
+  include_tool_calls: true

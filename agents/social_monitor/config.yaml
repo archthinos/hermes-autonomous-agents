@@ -1,0 +1,32 @@
+model:
+  provider: ollama
+  name: llama3.1:8b
+  temperature: 0.4
+  max_tokens: 4000
+
+limits:
+  max_iterations: 50
+  max_tool_calls_per_turn: 10
+  timeout_seconds: 180
+
+toolsets:
+  - web
+  - browser
+  - file
+
+memory:
+  enabled: true
+  max_memory_chars: 2200
+  max_user_chars: 1375
+
+system_prompt_additions:
+  - "Current date: {{date}}"
+  - "Focus on Twitter/X, Reddit, Hacker News"
+  - "Track AI/tech/crypto communities"
+  - "Filter signal from noise"
+
+personality: discerning
+
+logging:
+  level: INFO
+  include_tool_calls: true

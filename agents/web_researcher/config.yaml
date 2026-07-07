@@ -1,0 +1,32 @@
+model:
+  provider: ollama
+  name: llama3.1:8b
+  temperature: 0.2
+  max_tokens: 8000
+
+limits:
+  max_iterations: 80
+  max_tool_calls_per_turn: 15
+  timeout_seconds: 300
+
+toolsets:
+  - web
+  - browser
+  - file
+  - terminal
+
+memory:
+  enabled: true
+  max_memory_chars: 2200
+  max_user_chars: 1375
+
+system_prompt_additions:
+  - "Current date: {{date}}"
+  - "Deep research mode: thorough, methodical, cite sources"
+  - "Quality over speed"
+
+personality: scholarly
+
+logging:
+  level: INFO
+  include_tool_calls: true

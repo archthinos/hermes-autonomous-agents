@@ -1,0 +1,32 @@
+model:
+  provider: ollama
+  name: llama3.1:8b
+  temperature: 0.5
+  max_tokens: 3000
+
+limits:
+  max_iterations: 30
+  max_tool_calls_per_turn: 5
+  timeout_seconds: 120
+
+toolsets:
+  - calendar
+  - tasks
+  - file
+
+memory:
+  enabled: true
+  max_memory_chars: 2200
+  max_user_chars: 1375
+
+system_prompt_additions:
+  - "Current date: {{date}}"
+  - "Current time: {{time}}"
+  - "Today's tasks: {{today_tasks}}"
+  - "Upcoming deadlines: {{deadlines}}"
+
+personality: supportive
+
+logging:
+  level: INFO
+  include_tool_calls: true
